@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-view></router-view>
+    <p>Hello World! (Without Vue-Router)</p>
   </div>
 </template>
 
