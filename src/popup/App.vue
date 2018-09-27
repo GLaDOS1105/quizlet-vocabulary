@@ -15,7 +15,7 @@
           <v-list-tile
           v-for="(item, index) in menuItems"
           :key="index"
-          :href="item.url"
+          @click="item.action"
           target="_blank"
           >
           <v-list-tile-title>{{item.title}}</v-list-tile-title>
@@ -24,7 +24,7 @@
       </v-menu>
     </v-toolbar>
     <v-content>
-      <v-container grid-list-md>
+      <v-container grid-list-md fluid>
         <v-layout row wrap>
           <term-card
           v-for="(item, index) in termItems"
@@ -48,9 +48,9 @@ export default {
   data () {
     return {
       menuItems: [
-        { title: 'Settings', url: chrome.extension.getURL('../options/options.html') },
-        { title: 'Rate Extension', url: '#' },
-        { title: 'Bugs Report', url: 'https://github.com/GLaDOS1105/quizlet-vocabulary/issues' }
+        { title: 'Settings', action: () => chrome.runtime.openOptionsPage() },
+        { title: 'Rate Extension', action: () => {} },
+        { title: 'Bugs Report', action: () => window.open('https://github.com/GLaDOS1105/quizlet-vocabulary/issues') }
       ],
       termItems: [
         { term: 'why', definition: '為什麼' },
