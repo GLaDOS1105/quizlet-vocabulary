@@ -27,12 +27,9 @@
 
             <v-divider></v-divider>
 
-            <v-list
-              subheader
-              three-line
-            >
+            <v-list subheader two-line>
               <v-subheader>General</v-subheader>
-              <v-list-tile @click="">
+              <v-list-tile @click="" ripple>
                 <v-list-tile-action>
                   <v-checkbox
                     v-model="notifications"
@@ -45,7 +42,7 @@
                 </v-list-tile-content>
               </v-list-tile>
 
-              <v-list-tile @click="">
+              <v-list-tile @click="" ripple>
                 <v-list-tile-action>
                   <v-checkbox
                     v-model="sound"
@@ -58,7 +55,7 @@
                 </v-list-tile-content>
               </v-list-tile>
 
-              <v-list-tile @click="">
+              <v-list-tile @click="" ripple>
                 <v-list-tile-action>
                   <v-checkbox
                     v-model="widgets"
@@ -70,7 +67,7 @@
                   <v-list-tile-sub-title>Automatically add home screen widgets</v-list-tile-sub-title>
                 </v-list-tile-content>
               </v-list-tile>
-              <v-list-tile @click="">
+              <v-list-tile @click="" ripple>
                 <v-list-tile-action>
                   <v-checkbox
                     v-model="widgets"
@@ -82,7 +79,7 @@
                   <v-list-tile-sub-title>Automatically add home screen widgets</v-list-tile-sub-title>
                 </v-list-tile-content>
               </v-list-tile>
-              <v-list-tile @click="">
+              <v-list-tile @click="" ripple>
                 <v-list-tile-action>
                   <v-checkbox
                     v-model="widgets"
@@ -104,6 +101,13 @@
 
 <script>
 export default {
+  data () {
+    return {
+      notifications: false,
+      sound: true,
+      widgets: false
+    }
+  }
 }
 </script>
 
