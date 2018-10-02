@@ -1,5 +1,13 @@
 # quizlet-vocabulary
 
+## Options
+
+* Quizlet Set URLs
+* Match Modes
+  * Exclusive List
+  * Inclusive List
+* Auto Injection
+
 ## Project setup
 
 ``` bash

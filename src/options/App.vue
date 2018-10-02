@@ -1,101 +1,41 @@
 <template>
   <v-app>
-    <v-content>
-      <v-container fluid class="pa-0">
-        <v-layout row>
-          <v-flex xs12>
-            <v-list
-              subheader
-              three-line
-            >
-              <v-subheader>User Controls</v-subheader>
-
-              <v-list-tile>
-                <v-list-tile-content>
-                  <v-list-tile-title>Content filtering</v-list-tile-title>
-                  <v-list-tile-sub-title>Set the content filtering level to restrict appts that can be downloaded</v-list-tile-sub-title>
-                </v-list-tile-content>
-              </v-list-tile>
-
-              <v-list-tile>
-                <v-list-tile-content>
-                  <v-list-tile-title>Password</v-list-tile-title>
-                  <v-list-tile-sub-title>Require password for purchase or use password to restrict purchase</v-list-tile-sub-title>
-                </v-list-tile-content>
-              </v-list-tile>
-            </v-list>
-
-            <v-divider></v-divider>
-
-            <v-list subheader two-line>
-              <v-subheader>General</v-subheader>
-              <v-list-tile @click="" ripple>
-                <v-list-tile-action>
-                  <v-checkbox
-                    v-model="notifications"
-                  ></v-checkbox>
-                </v-list-tile-action>
-
-                <v-list-tile-content @click.prevent="notifications = !notifications">
-                  <v-list-tile-title>Notifications</v-list-tile-title>
-                  <v-list-tile-sub-title>Notify me about updates to apps or games that I downloaded</v-list-tile-sub-title>
-                </v-list-tile-content>
-              </v-list-tile>
-
-              <v-list-tile @click="" ripple>
-                <v-list-tile-action>
-                  <v-checkbox
-                    v-model="sound"
-                  ></v-checkbox>
-                </v-list-tile-action>
-
-                <v-list-tile-content @click.prevent="sound = !sound">
-                  <v-list-tile-title>Sound</v-list-tile-title>
-                  <v-list-tile-sub-title>Auto-update apps at any time. Data charges may apply</v-list-tile-sub-title>
-                </v-list-tile-content>
-              </v-list-tile>
-
-              <v-list-tile @click="" ripple>
-                <v-list-tile-action>
-                  <v-checkbox
-                    v-model="widgets"
-                  ></v-checkbox>
-                </v-list-tile-action>
-
-                <v-list-tile-content @click.prevent="widgets = !widgets">
-                  <v-list-tile-title>Auto-add widgets</v-list-tile-title>
-                  <v-list-tile-sub-title>Automatically add home screen widgets</v-list-tile-sub-title>
-                </v-list-tile-content>
-              </v-list-tile>
-              <v-list-tile @click="" ripple>
-                <v-list-tile-action>
-                  <v-checkbox
-                    v-model="widgets"
-                  ></v-checkbox>
-                </v-list-tile-action>
-
-                <v-list-tile-content @click.prevent="widgets = !widgets">
-                  <v-list-tile-title>Auto-add widgets</v-list-tile-title>
-                  <v-list-tile-sub-title>Automatically add home screen widgets</v-list-tile-sub-title>
-                </v-list-tile-content>
-              </v-list-tile>
-              <v-list-tile @click="" ripple>
-                <v-list-tile-action>
-                  <v-checkbox
-                    v-model="widgets"
-                  ></v-checkbox>
-                </v-list-tile-action>
-
-                <v-list-tile-content @click.prevent="widgets = !widgets">
-                  <v-list-tile-title>Auto-add widgets</v-list-tile-title>
-                  <v-list-tile-sub-title>Automatically add home screen widgets</v-list-tile-sub-title>
-                </v-list-tile-content>
-              </v-list-tile>
-            </v-list>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-content>
+    <v-data-table
+      :headers="headers"
+      :items="desserts"
+      :search="search"
+      v-model="selected"
+      item-key="name"
+      select-all
+      class="elevation-1"
+      hide-actions
+    >
+      <template slot="headerCell" slot-scope="props">
+        <v-tooltip bottom>
+          <span slot="activator">
+            {{ props.header.text }}
+          </span>
+          <span>
+            {{ props.header.text }}
+          </span>
+        </v-tooltip>
+      </template>
+      <template slot="items" slot-scope="props">
+        <td>
+          <v-checkbox
+            v-model="props.selected"
+            primary
+            hide-details
+          ></v-checkbox>
+        </td>
+        <td>{{ props.item.name }}</td>
+        <td class="text-xs-right">{{ props.item.calories }}</td>
+        <td class="text-xs-right">{{ props.item.fat }}</td>
+        <td class="text-xs-right">{{ props.item.carbs }}</td>
+        <td class="text-xs-right">{{ props.item.protein }}</td>
+        <td class="text-xs-right">{{ props.item.iron }}</td>
+      </template>
+    </v-data-table>
   </v-app>
 </template>
 
@@ -103,9 +43,41 @@
 export default {
   data () {
     return {
-      notifications: false,
-      sound: true,
-      widgets: false
+      search: '',
+      selected: [],
+      headers: [
+        {
+          text: 'Dessert (100g serving)',
+          align: 'left',
+          sortable: false,
+          value: 'name'
+        },
+        { text: 'Calories', value: 'calories' },
+        { text: 'Fat (g)', value: 'fat' },
+        { text: 'Carbs (g)', value: 'carbs' },
+        { text: 'Protein (g)', value: 'protein' },
+        { text: 'Iron (%)', value: 'iron' }
+      ],
+      desserts: [
+        {
+          value: false,
+          name: 'Frozen Yogurt',
+          calories: 159,
+          fat: 6.0,
+          carbs: 24,
+          protein: 4.0,
+          iron: '1%'
+        },
+        {
+          value: false,
+          name: 'Ice cream sandwich',
+          calories: 237,
+          fat: 9.0,
+          carbs: 37,
+          protein: 4.3,
+          iron: '1%'
+        }
+      ]
     }
   }
 }
