@@ -27,10 +27,10 @@
       <v-container grid-list-md fluid>
         <v-layout row wrap>
           <term-card
-          v-for="(item, index) in termItems"
-          :key="index"
-          :term="item.term"
-          :definition="item.definition"
+          v-for="(value, key) in termItems"
+          :key="key"
+          :term="key"
+          :definition="value"
           ></term-card>
         </v-layout>
       </v-container>
@@ -50,14 +50,39 @@ export default {
       menuItems: [
         { title: 'Settings', action: () => chrome.runtime.openOptionsPage() },
         { title: 'Rate Extension', action: () => {} },
-        { title: 'Bugs Report', action: () => window.open('https://github.com/GLaDOS1105/quizlet-vocabulary/issues') }
+        { title: 'Bugs Report', action: () => open('https://github.com/GLaDOS1105/quizlet-vocabulary/issues') }
       ],
-      termItems: [
-        { term: 'why', definition: '為什麼' },
-        { term: 'so', definition: '如此' },
-        { term: 'superfluous', definition: '多餘' }
-      ]
+      termItems: {},
+      timer: undefined
     }
+  },
+  created () {
+    this.requestMarking()
+    this.updateFoundTerms()
+    this.timer = setInterval(this.updateFoundTerms, 500)
+  },
+  methods: {
+    sendMessage2CurrentTab (message, responseCallback) {
+      chrome.tabs.query(
+        { active: true, currentWindow: true },
+        (tabs) => chrome.tabs.sendMessage(tabs[0].id, message, responseCallback)
+      )
+    },
+    requestMarking () {
+      this.sendMessage2CurrentTab(
+        { name: 'requestMarking' },
+        (response) => { if (!response) this.requestMarking() }
+      )
+    },
+    updateFoundTerms () {
+      this.sendMessage2CurrentTab(
+        { name: 'requestFoundTerms' },
+        (response) => { console.log(response); this.termItems = response }
+      )
+    }
+  },
+  beforeDestroy () {
+    clearInterval(this.timer)
   }
 }
 </script>
