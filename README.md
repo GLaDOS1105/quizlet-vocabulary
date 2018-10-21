@@ -7,6 +7,8 @@
   * Exclusive List
   * Inclusive List
 * Auto Injection
+  * All Match?
+* Marker Style
 
 ## Project setup
 

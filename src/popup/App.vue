@@ -7,6 +7,9 @@
       <v-btn icon>
         <v-icon>refresh</v-icon>
       </v-btn>
+      <v-btn @click="switchMarkingRequest" icon>
+        <v-icon>{{markingVisibilityIconName}}</v-icon>
+      </v-btn>
       <v-menu bottom left>
         <v-btn slot="activator" icon>
           <v-icon>more_vert</v-icon>
@@ -41,6 +44,13 @@
 <script>
 import TermCard from '../components/TermCard'
 
+function sendMessage2CurrentTab (message, responseCallback) {
+  chrome.tabs.query(
+    { active: true, currentWindow: true },
+    (tabs) => chrome.tabs.sendMessage(tabs[0].id, message, responseCallback)
+  )
+}
+
 export default {
   components: {
     TermCard
@@ -53,7 +63,14 @@ export default {
         { title: 'Bugs Report', action: () => open('https://github.com/GLaDOS1105/quizlet-vocabulary/issues') }
       ],
       termItems: {},
+      markingVisibility: true,
       timer: undefined
+    }
+  },
+  computed: {
+    markingVisibilityIconName () {
+      if (this.markingVisibility) return 'visibility_off'
+      return 'visibility'
     }
   },
   created () {
@@ -62,23 +79,33 @@ export default {
     this.timer = setInterval(this.updateFoundTerms, 500)
   },
   methods: {
-    sendMessage2CurrentTab (message, responseCallback) {
-      chrome.tabs.query(
-        { active: true, currentWindow: true },
-        (tabs) => chrome.tabs.sendMessage(tabs[0].id, message, responseCallback)
+    requestMarking () {
+      sendMessage2CurrentTab(
+        { name: 'requestStartMarking' },
+        (response) => {
+          if (!response) this.requestMarking()
+          else this.markingVisibility = true
+        }
       )
     },
-    requestMarking () {
-      this.sendMessage2CurrentTab(
-        { name: 'requestMarking' },
-        (response) => { if (!response) this.requestMarking() }
+    requestStopMarking () {
+      sendMessage2CurrentTab(
+        { name: 'requestStopMarking' },
+        (response) => {
+          if (response) this.requestStopMarking()
+          else this.markingVisibility = false
+        }
       )
     },
     updateFoundTerms () {
-      this.sendMessage2CurrentTab(
+      sendMessage2CurrentTab(
         { name: 'requestFoundTerms' },
-        (response) => { console.log(response); this.termItems = response }
+        (response) => { this.termItems = response }
       )
+    },
+    switchMarkingRequest () {
+      if (this.markingVisibility) this.requestStopMarking()
+      else this.requestMarking()
     }
   },
   beforeDestroy () {
