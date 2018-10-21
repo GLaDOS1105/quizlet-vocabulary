@@ -2,7 +2,7 @@
   <v-app dark>
     <v-toolbar app dense>
       <img src="@/assets/logo.png" alt="Vuetify.js" class="logo ma-1">
-      <v-toolbar-title>In-Page Vocabulary</v-toolbar-title>
+      <v-toolbar-title>In-Page Terms</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon>
         <v-icon>refresh</v-icon>
@@ -118,6 +118,9 @@ export default {
 html {
   width: 400px;
   min-height: 200px;
+}
+body {
+  font-size: initial;
 }
 .logo {
   max-width: 70%;

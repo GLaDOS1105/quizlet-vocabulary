@@ -4,11 +4,11 @@
       <v-container fill-height fluid>
         <v-layout fill-height>
           <v-flex xs5>
-            <span class="title">{{term}}</span>
+            <span class="subheading">{{term}}</span>
           </v-flex>
           <v-divider vertical></v-divider>
           <v-flex xs7>
-            <span class="subheading">{{definition}}</span>
+            <span>{{definition}}</span>
           </v-flex>
         </v-layout>
       </v-container>

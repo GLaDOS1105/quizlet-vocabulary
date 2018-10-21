@@ -52,8 +52,9 @@ function mark (dict) {
         done () {
           marker = new Mark(findTextNodes())
           marker.mark(Object.keys(dict), {
+            className: 'ext-highlight',
             accuracy: 'exactly',
-            filter: (_textNode, foundTerm, _totalCounter, _counter) => {
+            filter (_textNode, foundTerm, _totalCounter, _counter) {
               foundTerms[foundTerm] = dict[foundTerm]
               return true
             }
