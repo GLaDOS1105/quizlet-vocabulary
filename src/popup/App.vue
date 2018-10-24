@@ -119,6 +119,7 @@ html {
   width: 400px;
   min-height: 200px;
 }
+/* To fix unknown wierd injected stylesheet... */
 body {
   font-size: initial;
 }
