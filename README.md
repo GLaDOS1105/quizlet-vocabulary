@@ -32,7 +32,7 @@ npm run build
 npm run lint
 ```
 
-## How to Create the Template with `browser-extension` and `vuetify` Plugins (this project for example)
+## How to Create the Template with [`browser-extension`](https://github.com/adambullmer/vue-cli-plugin-browser-extension) and `vuetify` Plugins (this project for example)
 
 ``` bash
 npm install @vue/cli -g
