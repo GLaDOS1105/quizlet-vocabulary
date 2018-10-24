@@ -10,14 +10,14 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0-rc.1",
     "vue": "^2.5.17",
-    "vuetify": "^1.2.0"
+    "vuetify": "^1.2.0",
+    "mark.js": "^8.11.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.3",
     "@vue/cli-plugin-eslint": "^3.0.3",
     "@vue/cli-service": "^3.0.3",
     "@vue/eslint-config-standard": "^3.0.3",
-    "mark.js": "^8.11.1",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
     "vue-cli-plugin-browser-extension": "^0.12.1",
