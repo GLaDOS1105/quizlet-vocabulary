@@ -1,14 +1,12 @@
 # quizlet-vocabulary
 
-## Options
+## Options UI
 
-* Quizlet Set URLs
-* Match Modes
-  * Exclusive List
+* Quizlet Set URLs // After get API
+* Auto Injection?
   * Inclusive List
-* Auto Injection
-  * All Match?
 * Marker Style
+* About
 
 ## Project setup
 

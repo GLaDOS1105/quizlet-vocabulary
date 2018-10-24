@@ -1,20 +1,63 @@
 <template>
   <v-app style="background: initial">
-    <v-layout row wrap>
-      <v-flex xs12 lg5 mb-3>
-        <v-expansion-panel>
-          <v-expansion-panel-content
-            v-for="(item,i) in 5"
-            :key="i"
+    <v-container fluid>
+      <v-layout row wrap>
+        <v-flex xs12>
+          <v-list subheader two-line>
+            <v-subheader>Settings</v-subheader>
+
+            <v-list-tile @click=";">
+              <v-list-tile-content @click="autoHighlight = !autoHighlight">
+                <v-list-tile-title>Automatically Highlight</v-list-tile-title>
+                <v-list-tile-sub-title>Automatically highlight the words in user-defined term sets.</v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-switch v-model="autoHighlight"></v-switch>
+              </v-list-tile-action>
+            </v-list-tile>
+
+          </v-list>
+
+          <v-data-table
+            :headers="[{ text: 'URL', value: 'url' }]"
+            :items="urls"
+            item-key="url"
+            v-model="selectedUrls"
+            hide-actions
+            select-all
           >
-            <div slot="header">Item</div>
-            <v-card>
-              <v-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</v-card-text>
-            </v-card>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-      </v-flex>
-    </v-layout>
+            <template slot="items" slot-scope="props">
+              <td>
+                <v-checkbox
+                  v-model="props.selected"
+                  hide-details
+                  :disabled="!autoHighlight"></v-checkbox>
+              </td>
+              <td>{{ props.item.url }}</td>
+            </template>
+          </v-data-table>
+
+          <v-list subheader two-line>
+            <v-subheader>Mark Style</v-subheader>
+
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title>Marking Text Color</v-list-tile-title>
+                <v-list-tile-sub-title>Set the marking text color.</v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-text-field
+                  style="border: 0"
+                  label="Named Color or Hex Code"
+                  box
+                  clearable></v-text-field>
+              </v-list-tile-action>
+            </v-list-tile>
+
+          </v-list>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </v-app>
 </template>
 
@@ -22,6 +65,14 @@
 export default {
   data () {
     return {
+      autoHighlight: true,
+      selectedUrls: [],
+      urls: [
+        { url: 'www.google.com' },
+        { url: 'www.facebook.com' }
+      ],
+      markingBgColor: 'LightCoral',
+      markingFgColor: '#262626'
     }
   }
 }
@@ -33,5 +84,8 @@ html {
 }
 body {
   font-size: initial;
+}
+input {
+  border-width: 0 !important;
 }
 </style>

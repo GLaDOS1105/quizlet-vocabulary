@@ -21,7 +21,7 @@
           @click="item.action"
           target="_blank"
           >
-          <v-list-tile-title>{{item.title}}</v-list-tile-title>
+          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
           </v-list-tile>
         </v-list>
       </v-menu>
