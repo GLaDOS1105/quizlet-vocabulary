@@ -44,13 +44,6 @@
 <script>
 import TermCard from '../components/TermCard'
 
-function sendMessage2CurrentTab (message, responseCallback) {
-  chrome.tabs.query(
-    { active: true, currentWindow: true },
-    (tabs) => chrome.tabs.sendMessage(tabs[0].id, message, responseCallback)
-  )
-}
-
 export default {
   components: {
     TermCard
@@ -79,28 +72,34 @@ export default {
     this.timer = setInterval(this.updateFoundTerms, 500)
   },
   methods: {
+    sendMessage2CurrentTab (message, responseCallback) {
+      chrome.tabs.query(
+        { active: true, currentWindow: true },
+        tabs => chrome.tabs.sendMessage(tabs[0].id, message, responseCallback)
+      )
+    },
     requestMarking () {
-      sendMessage2CurrentTab(
+      this.sendMessage2CurrentTab(
         { name: 'requestStartMarking' },
-        (response) => {
+        response => {
           if (!response) this.requestMarking()
           else this.markingVisibility = true
         }
       )
     },
     requestStopMarking () {
-      sendMessage2CurrentTab(
+      this.sendMessage2CurrentTab(
         { name: 'requestStopMarking' },
-        (response) => {
+        response => {
           if (response) this.requestStopMarking()
           else this.markingVisibility = false
         }
       )
     },
     updateFoundTerms () {
-      sendMessage2CurrentTab(
+      this.sendMessage2CurrentTab(
         { name: 'requestFoundTerms' },
-        (response) => { this.termItems = response }
+        response => { this.termItems = response }
       )
     },
     switchMarkingRequest () {
@@ -119,7 +118,6 @@ html {
   width: 400px;
   min-height: 200px;
 }
-/* To fix unknown wierd injected stylesheet... */
 body {
   font-size: initial;
 }

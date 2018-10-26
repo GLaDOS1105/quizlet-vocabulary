@@ -32,7 +32,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 function requestDict (callback) {
   chrome.runtime.sendMessage(
     { name: 'requestDict' },
-    (response) => {
+    response => {
       if (response.length === 0) setTimeout(requestDict, 500)
       else callback(response)
     }
