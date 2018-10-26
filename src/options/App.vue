@@ -153,16 +153,13 @@ export default {
       val || this.closeDialog()
     },
     autoHighlight (val) {
-      const autoHighlight = val
-      this.saveOption({ autoHighlight })
+      this.saveOption({ autoHighlight: val })
     },
     urls (val) {
-      const urls = val
-      this.saveOption({ urls })
+      this.saveOption({ urls: val })
     },
     selectedWebsites (val) {
-      const selectedWebsites = val
-      this.saveOption({ selectedWebsites })
+      this.saveOption({ selectedWebsites: val })
     }
   },
   methods: {
@@ -196,9 +193,10 @@ export default {
   created () {
     // TODO: after replace the color picker, we could move this to `watch`
     addEventListener('beforeunload', () => {
-      const markingFgColor = this.markingFgColor
-      const markingBgColor = this.markingBgColor
-      this.saveOption({ markingFgColor, markingBgColor })
+      this.saveOption({
+        markingFgColor: this.markingFgColor,
+        markingBgColor: this.markingBgColor
+      })
     })
     chrome.storage.sync.get(options => {
       for (let [key, value] of Object.entries(options)) {
