@@ -15,6 +15,9 @@
                 <v-layout row wrap>
                   <input type="color" v-model="markingFgColor" class="mx-2 elevation-1">
                   <code>{{ markingFgColor }}</code>
+                  <v-btn icon color="grey darken-2" flat @click.native="saveColor" class="mx-2">
+                    <v-icon>save</v-icon>
+                  </v-btn>
                 </v-layout>
               </v-list-tile-action>
             </v-list-tile>
@@ -28,6 +31,9 @@
                 <v-layout row wrap>
                   <input type="color" v-model="markingBgColor" class="mx-2 elevation-1">
                   <code>{{ markingBgColor }}</code>
+                  <v-btn icon color="grey darken-2" flat @click.native="saveColor" class="mx-2">
+                    <v-icon>save</v-icon>
+                  </v-btn>
                 </v-layout>
               </v-list-tile-action>
             </v-list-tile>
@@ -37,10 +43,20 @@
             <v-list-tile @click=";">
               <v-list-tile-content @click="autoHighlight = !autoHighlight">
                 <v-list-tile-title>Automatically Highlight</v-list-tile-title>
-                <v-list-tile-sub-title>Automatically highlight the words in user-defined term sets.</v-list-tile-sub-title>
+                <v-list-tile-sub-title>Automatically highlight the user-defined terms on page loading.</v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
                 <v-switch v-model="autoHighlight"></v-switch>
+              </v-list-tile-action>
+            </v-list-tile>
+
+            <v-list-tile @click=";">
+              <v-list-tile-content @click="selectAllWebsites = !selectAllWebsites">
+                <v-list-tile-title>Highlight All Website</v-list-tile-title>
+                <v-list-tile-sub-title>Highlight on all websites automatically.</v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-switch v-model="selectAllWebsites" :disabled="!autoHighlight"></v-switch>
               </v-list-tile-action>
             </v-list-tile>
 
@@ -51,7 +67,9 @@
                 <v-subheader>Target Websites</v-subheader>
                 <v-spacer></v-spacer>
                 <v-dialog v-model="dialog">
-                  <v-btn depressed color="primary" slot="activator">Add Website</v-btn>
+                  <v-btn depressed color="secondary" slot="activator"
+                    :disabled="!autoHighlight || selectAllWebsites"
+                  >Add Website</v-btn>
                   <v-card>
                     <v-card-title class="headline">{{ dialogTitle }}</v-card-title>
                     <v-card-text>
@@ -67,10 +85,7 @@
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn flat color="primary" @click.native="closeDialog">Cancel</v-btn>
-                      <v-btn
-                        flat
-                        color="primary"
-                        @click.native="saveDialog"
+                      <v-btn flat color="primary" @click.native="saveDialog"
                         :disabled="!editedWebsite.url"
                       >Save</v-btn>
                     </v-card-actions>
@@ -99,24 +114,20 @@
                 <v-checkbox
                   v-model="props.selected"
                   hide-details
-                  :disabled="!autoHighlight"></v-checkbox>
+                  :disabled="!autoHighlight || selectAllWebsites"></v-checkbox>
               </td>
               <td>
                 {{ props.item.url }}
               </td>
               <td class="text-xs-right">
-                <v-btn
-                  icon
-                  color="primary"
-                  flat
+                <v-btn icon color="grey darken-2" flat
                   @click.native="editWebsite(props.item)"
+                  :disabled="!autoHighlight || selectAllWebsites"
                 ><v-icon>edit</v-icon>
                 </v-btn>
-                <v-btn
-                  icon
-                  color="primary"
-                  flat
+                <v-btn icon color="grey darken-2" flat
                   @click.native="deleteWebsite(props.item)"
+                  :disabled="!autoHighlight || selectAllWebsites"
                 ><v-icon>delete</v-icon>
                 </v-btn>
               </td>
@@ -133,6 +144,7 @@ export default {
   data () {
     return {
       autoHighlight: undefined,
+      selectAllWebsites: undefined,
       dialog: false,
       selectedWebsites: [],
       urls: [],
@@ -154,6 +166,9 @@ export default {
     },
     autoHighlight (val) {
       this.saveOption({ autoHighlight: val })
+    },
+    selectAllWebsites (val) {
+      this.saveOption({ selectAllWebsites: val })
     },
     urls (val) {
       this.saveOption({ urls: val })
@@ -186,18 +201,17 @@ export default {
       }
       this.closeDialog()
     },
+    saveColor () {
+      this.saveOption({
+        markingFgColor: this.markingFgColor,
+        markingBgColor: this.markingBgColor
+      })
+    },
     saveOption (option) {
       chrome.storage.sync.set(option, () => { console.log('save', option) })
     }
   },
   created () {
-    // TODO: after replace the color picker, we could move this to `watch`
-    addEventListener('beforeunload', () => {
-      this.saveOption({
-        markingFgColor: this.markingFgColor,
-        markingBgColor: this.markingBgColor
-      })
-    })
     chrome.storage.sync.get(options => {
       for (let [key, value] of Object.entries(options)) {
         this[key] = value
