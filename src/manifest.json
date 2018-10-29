@@ -1,6 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Quizlet Vocabulary",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAukrNPTFlEIlho4Q2QmHlV5nUfR6ywjacVqZI/UJ1U1dFSzKwkiM+ylexxoXsDUfL0ZP//MAExYQ6kT5LIeTvXwOE8apnQT0P+19JI01l2dySvy6w18+4LmuTBdCQeWxe3WwZdoUCkG5Ab08U1FFbh2Wvy3zJb1UWWEH6r1qaZqpJwR5LmAxbb8XQzJVZOtbgmBJLZFsuEWiVN2ZbAHoVfxKE42mDL+mDKyj4hnThb1hRlrvwf4jik7wslnpraIqhmMxTnZpGlfM3SW0ngffB+rcrAtt3wlATNszmZicdw6WQ9TbIb+SiCKhlrE+zPKklGB4G53XvJyZTRbdUnlueaQIDAQAB",
   "homepage_url": "http://localhost/",
   "description": "A Vue Browser Extension",
   "icons": {
