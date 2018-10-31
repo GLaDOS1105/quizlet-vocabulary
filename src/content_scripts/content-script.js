@@ -1,22 +1,27 @@
 import Mark from 'mark.js'
 
 (function () {
-  let urls, markingTimer, marker
+  let markingTimer, marker
+  const markerClassName = 'quizlet-vocabulary-highlighter'
   chrome.storage.sync.get(
     [
       'selectedWebsites', 'autoHighlight', 'selectAllWebsites',
       'markingFgColor', 'markingBgColor'
     ],
     options => {
-      console.log(options)
-      urls = options.selectedWebsites.map(obj => obj.url)
+      const style = document.createElement('style')
+      style.type = 'text/css'
+      style.innerHTML = `.${markerClassName} {color: ${options.markingFgColor}; background-color: ${options.markingBgColor}}`
+      document.head.appendChild(style)
+
+      const urls = options.selectedWebsites.map(obj => obj.url)
       if (options.autoHighlight &&
         (options.selectAllWebsites ||
           urls.some(x => document.location.href.includes(x)))) requestDict(mark)
     })
 
   // Popup requires `foundTerms` object to display the list.
-  let foundTerms = {}
+  const foundTerms = {}
 
   chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     if (message.name === 'requestStartMarking') {
@@ -45,8 +50,8 @@ import Mark from 'mark.js'
   function mark (dict) {
     marker = new Mark(findTextNodes())
     let hasMutated = true // at least mark once (first time)
-    let observeOptions = { childList: true, characterData: true, subtree: true }
-    let observer = new MutationObserver((_mut, _obs) => { hasMutated = true })
+    const observeOptions = { childList: true, characterData: true, subtree: true }
+    const observer = new MutationObserver((_mut, _obs) => { hasMutated = true })
     function updateMarker () {
       if (hasMutated) {
         console.log('update marking')
@@ -55,7 +60,7 @@ import Mark from 'mark.js'
           done () {
             marker = new Mark(findTextNodes())
             marker.mark(Object.keys(dict), {
-              className: 'ext-highlight',
+              className: markerClassName,
               accuracy: 'exactly',
               filter (_textNode, foundTerm, _totalCounter, _counter) {
                 foundTerms[foundTerm] = dict[foundTerm]
@@ -79,7 +84,7 @@ import Mark from 'mark.js'
   function findTextNodes () {
     return Array.from(document.querySelectorAll('body *')).filter(node => {
       if (['SCRIPT', 'STYLE'].includes(node.tagName)) return false
-      let style = getComputedStyle(node)
+      const style = getComputedStyle(node)
       if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === 0) return false
       if (!node.innerText) return false
       return true
