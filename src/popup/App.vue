@@ -4,12 +4,18 @@
       <img src="@/assets/logo.png" alt="Vuetify.js" class="logo ma-1">
       <v-toolbar-title>In-Page Terms</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>refresh</v-icon>
-      </v-btn>
-      <v-btn @click="switchMarkingRequest" icon>
-        <v-icon>{{markingVisibilityIconName}}</v-icon>
-      </v-btn>
+      <v-tooltip bottom>
+        <v-btn icon slot="activator">
+          <v-icon>refresh</v-icon>
+        </v-btn>
+        <span>Refresh Quizlet Terms</span>
+      </v-tooltip>
+      <v-tooltip bottom>
+        <v-btn @click="switchMarkingRequest" icon slot="activator">
+          <v-icon>{{ markingVisibilityIconName }}</v-icon>
+        </v-btn>
+        <span>{{ markingVisibilityTooltips }}</span>
+      </v-tooltip>
       <v-menu bottom left>
         <v-btn slot="activator" icon>
           <v-icon>more_vert</v-icon>
@@ -64,6 +70,10 @@ export default {
     markingVisibilityIconName () {
       if (this.markingVisibility) return 'visibility_off'
       return 'visibility'
+    },
+    markingVisibilityTooltips () {
+      if (this.markingVisibility) return 'Remove Marks'
+      return 'Show Marks'
     }
   },
   created () {

@@ -15,9 +15,12 @@
                 <v-layout row wrap>
                   <input type="color" v-model="markingFgColor" class="mx-2 elevation-1">
                   <code>{{ markingFgColor }}</code>
-                  <v-btn icon color="grey darken-2" flat @click.native="saveColor" class="mx-2">
-                    <v-icon>save</v-icon>
-                  </v-btn>
+                  <v-tooltip bottom>
+                    <v-btn icon color="grey darken-2" flat @click.native="saveColor" class="mx-2" slot="activator">
+                      <v-icon>save</v-icon>
+                    </v-btn>
+                    <span>Save Color Setting</span>
+                  </v-tooltip>
                 </v-layout>
               </v-list-tile-action>
             </v-list-tile>
@@ -31,9 +34,12 @@
                 <v-layout row wrap>
                   <input type="color" v-model="markingBgColor" class="mx-2 elevation-1">
                   <code>{{ markingBgColor }}</code>
-                  <v-btn icon color="grey darken-2" flat @click.native="saveColor" class="mx-2">
-                    <v-icon>save</v-icon>
-                  </v-btn>
+                  <v-tooltip bottom>
+                    <v-btn icon color="grey darken-2" flat @click.native="saveColor" class="mx-2" slot="activator">
+                      <v-icon>save</v-icon>
+                    </v-btn>
+                    <span>Save Color Setting</span>
+                  </v-tooltip>
                 </v-layout>
               </v-list-tile-action>
             </v-list-tile>
@@ -111,25 +117,35 @@
           >
             <template slot="items" slot-scope="props">
               <td>
-                <v-checkbox
-                  v-model="props.selected"
-                  hide-details
-                  :disabled="!autoHighlight || selectAllWebsites"></v-checkbox>
+                <v-tooltip top>
+                  <v-checkbox
+                    slot="activator"
+                    v-model="props.selected"
+                    hide-details
+                    :disabled="!autoHighlight || selectAllWebsites"></v-checkbox>
+                  <span>Enable</span>
+                </v-tooltip>
               </td>
               <td>
                 {{ props.item.url }}
               </td>
               <td class="text-xs-right">
-                <v-btn icon color="grey darken-2" flat
-                  @click.native="editWebsite(props.item)"
-                  :disabled="!autoHighlight || selectAllWebsites"
-                ><v-icon>edit</v-icon>
-                </v-btn>
-                <v-btn icon color="grey darken-2" flat
-                  @click.native="deleteWebsite(props.item)"
-                  :disabled="!autoHighlight || selectAllWebsites"
-                ><v-icon>delete</v-icon>
-                </v-btn>
+                <v-tooltip top>
+                  <v-btn icon color="grey darken-2" flat slot="activator"
+                    @click.native="editWebsite(props.item)"
+                    :disabled="!autoHighlight || selectAllWebsites"
+                  ><v-icon>edit</v-icon>
+                  </v-btn>
+                  <span>Edit</span>
+                </v-tooltip>
+                <v-tooltip top>
+                  <v-btn icon color="grey darken-2" flat slot="activator"
+                    @click.native="deleteWebsite(props.item)"
+                    :disabled="!autoHighlight || selectAllWebsites"
+                  ><v-icon>delete</v-icon>
+                  </v-btn>
+                  <span>Delete</span>
+                </v-tooltip>
               </td>
             </template>
           </v-data-table>
