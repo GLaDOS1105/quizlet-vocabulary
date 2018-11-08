@@ -8,7 +8,7 @@ const defaultOptions = {
 }
 
 // Set default settings.
-chrome.runtime.onInstalled.addListener(_details => {
+chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.sync.get(results => {
     for (let [key, value] of Object.entries(defaultOptions)) {
       if (results[key] === undefined) chrome.storage.sync.set({ [key]: value })

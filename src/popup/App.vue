@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
     <v-toolbar app dense>
-      <img src="@/assets/logo.png" alt="Vuetify.js" class="logo ma-1">
+      <img src="@/assets/logo.png" alt="Quizlet Vocabulary" class="logo ma-1">
       <v-toolbar-title>In-Page Terms</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-tooltip bottom>
