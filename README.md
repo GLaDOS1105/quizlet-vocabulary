@@ -1,5 +1,7 @@
 # quizlet-vocabulary
 
+NOTE: This project has suspended as I could not get developing key from Quizlet.
+
 ![marquee](https://i.imgur.com/uWbtooZ.png "marquee")
 
 ## Options UI
